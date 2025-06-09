@@ -13,25 +13,23 @@ module.exports = {
   },
   module: {
     rules: [
-      /* {
-        test: /\.(js|jsx)$/,
+      {
+        test: /\.tsx?$/,
+        use: 'ts-loader',
         exclude: /node_modules/,
-        use: [
-          'thread-loader',
-          {
-            loader: 'babel-loader',
-            options: {
-              plugins: [
-                process.env.NODE_ENV === 'development' && require.resolve('react-refresh/babel'),
-              ].filter(Boolean),
-            },
-          },
-        ],
-      }, */
+      },
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: ['babel-loader'],
+      },
+      {
+        test: /\.(scss|css)$/,
+        use: [
+          IS_PRODE ? MiniCssExtractPlugin.loader : 'style-loader',
+          'css-loader',
+          'sass-loader'
+        ]
       }
     ]
   },
@@ -45,7 +43,7 @@ module.exports = {
     }),
   ],
   resolve: {
-    extensions: ['*', '.js', '.jsx'],
+    extensions: ['*', '.js', '.jsx', '.ts', '.tsx'],
   },
   devServer: {
     static: {
